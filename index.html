@@ -1,0 +1,1047 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Portfolio – Applied Computer Vision Engineer</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@300;400;500&display=swap"
+    rel="stylesheet" />
+  <style>
+    /* ── TOKENS ─────────────────────────────────────────────── */
+    :root {
+      --bg: #0a0c0f;
+      --surface: #111418;
+      --border: #1e2328;
+      --accent: #00f964;
+      --accent2: #0af;
+      --muted: #4a5568;
+      --text: #e2e8f0;
+      --text-dim: #8899aa;
+      --mono: 'JetBrains Mono', monospace;
+      --sans: 'Inter', sans-serif;
+
+    }
+
+    /* ── RESET ──────────────────────────────────────────────── */
+    *,
+    *::before,
+    *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--sans);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* ── NOISE OVERLAY ──────────────────────────────────────── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 9999;
+      opacity: .4;
+    }
+
+    /* ── GRID BACKGROUND ────────────────────────────────────── */
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(var(--border) 1px, transparent 1px),
+        linear-gradient(90deg, var(--border) 1px, transparent 1px);
+      background-size: 48px 48px;
+      pointer-events: none;
+      z-index: 0;
+      opacity: .35;
+    }
+
+    /* ── LAYOUT ─────────────────────────────────────────────── */
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 0 24px;
+      position: relative;
+      z-index: 1;
+    }
+
+    section {
+      padding: 40px 0;
+    }
+
+    /* ── NAV ────────────────────────────────────────────────── */
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      background: rgba(10, 12, 15, .85);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    nav .inner {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 0 24px;
+      height: 56px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .nav-logo {
+      font-family: var(--mono);
+      font-size: .85rem;
+      color: var(--accent);
+      letter-spacing: .05em;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 28px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-family: var(--mono);
+      font-size: .78rem;
+      color: var(--text-dim);
+      text-decoration: none;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      transition: color .2s;
+    }
+
+    .nav-links a:hover {
+      color: var(--accent);
+    }
+
+    /* ── HERO ───────────────────────────────────────────────── */
+    #hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      padding-top: 56px;
+    }
+
+    .hero-eyebrow {
+      font-family: var(--mono);
+      font-size: .78rem;
+      color: var(--accent);
+      letter-spacing: .15em;
+      text-transform: uppercase;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .hero-eyebrow::before {
+      content: '';
+      width: 32px;
+      height: 1px;
+      background: var(--accent);
+    }
+
+    h1 {
+      font-size: clamp(2.8rem, 7vw, 5rem);
+      font-weight: 800;
+      line-height: 1.05;
+      letter-spacing: -.02em;
+      margin-bottom: 12px;
+    }
+
+    .hero-title-dim {
+      color: var(--muted);
+    }
+
+    .hero-sub {
+      font-size: 1.05rem;
+      color: var(--text-dim);
+      max-width: 500px;
+      margin: 24px 0 36px;
+      line-height: 1.7;
+    }
+
+    .hero-contact {
+      font-family: var(--mono);
+      font-size: .78rem;
+      color: var(--text-dim);
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      margin-bottom: 40px;
+    }
+
+    .hero-contact a {
+      color: var(--text-dim);
+      text-decoration: none;
+      transition: color .2s;
+    }
+
+    .hero-contact a:hover {
+      color: var(--accent);
+    }
+
+    .hero-contact span {
+      color: var(--border);
+    }
+
+    .btn-row {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 11px 22px;
+      font-family: var(--mono);
+      font-size: .82rem;
+      font-weight: 500;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      text-decoration: none;
+      border-radius: 4px;
+      transition: all .2s;
+      cursor: pointer;
+    }
+
+    .btn-primary {
+      background: var(--accent);
+      color: #000;
+      border: 1px solid var(--accent);
+    }
+
+    .btn-primary:hover {
+      background: transparent;
+      color: var(--accent);
+    }
+
+    .btn-outline {
+      background: transparent;
+      color: var(--text-dim);
+      border: 1px solid var(--border);
+    }
+
+    .btn-outline:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    /* hero stat row */
+    .hero-stats {
+      margin-top: 64px;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      overflow: hidden;
+      max-width: 480px;
+    }
+
+    .stat {
+      background: var(--surface);
+      padding: 20px;
+      text-align: center;
+    }
+
+    .stat-val {
+      font-size: 1.6rem;
+      font-weight: 800;
+      color: var(--accent);
+      display: block;
+    }
+
+    .stat-lbl {
+      font-family: var(--mono);
+      font-size: .68rem;
+      color: var(--text-dim);
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      display: block;
+      margin-top: 3px;
+    }
+
+    /* ── SECTION HEADERS ────────────────────────────────────── */
+    .sec-header {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 48px;
+    }
+
+    .sec-tag {
+      font-family: var(--mono);
+      font-size: .7rem;
+      color: var(--accent);
+      letter-spacing: .15em;
+      text-transform: uppercase;
+      padding: 4px 10px;
+      border: 1px solid var(--accent);
+      border-radius: 2px;
+      white-space: nowrap;
+    }
+
+    .sec-line {
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    h2 {
+      font-size: 1.9rem;
+      font-weight: 700;
+      letter-spacing: -.02em;
+    }
+
+    /* ── EXPERIENCE ─────────────────────────────────────────── */
+    .exp-list {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .exp-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      overflow: hidden;
+      transition: border-color .2s;
+    }
+
+    .exp-card:hover {
+      border-color: var(--accent);
+    }
+
+    .exp-header {
+      padding: 24px 28px;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 16px;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .exp-title {
+      font-size: 1.05rem;
+      font-weight: 700;
+    }
+
+    .exp-company {
+      font-family: var(--mono);
+      font-size: .78rem;
+      color: var(--accent2);
+      margin-top: 3px;
+    }
+
+    .exp-date {
+      font-family: var(--mono);
+      font-size: .72rem;
+      color: var(--text-dim);
+      white-space: nowrap;
+      padding: 4px 10px;
+      background: var(--bg);
+      border-radius: 3px;
+      border: 1px solid var(--border);
+    }
+
+    .exp-body {
+      padding: 0 28px;
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height .35s ease, padding .35s ease;
+    }
+
+    .exp-body.open {
+      max-height: 600px;
+      padding: 0 28px 24px;
+    }
+
+    .exp-bullets {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .exp-bullets li {
+      font-size: .92rem;
+      color: var(--text-dim);
+      line-height: 1.65;
+      padding-left: 18px;
+      position: relative;
+    }
+
+    .exp-bullets li::before {
+      content: '▸';
+      position: absolute;
+      left: 0;
+      color: var(--accent);
+      font-size: .75rem;
+      top: 3px;
+    }
+
+    .toggle-icon {
+      font-size: .8rem;
+      color: var(--muted);
+      transition: transform .3s;
+    }
+
+    .exp-card.open .toggle-icon {
+      transform: rotate(180deg);
+    }
+
+    /* ── SKILLS ─────────────────────────────────────────────── */
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 16px;
+    }
+
+    .skill-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 22px;
+      transition: border-color .2s, transform .2s;
+    }
+
+    .skill-card:hover {
+      border-color: var(--accent);
+      transform: translateY(-2px);
+    }
+
+    .skill-cat {
+      font-family: var(--mono);
+      font-size: .68rem;
+      color: var(--accent);
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+
+    .skill-name {
+      font-size: .95rem;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 8px;
+    }
+
+    .skill-desc {
+      font-size: .82rem;
+      color: var(--text-dim);
+      line-height: 1.55;
+    }
+
+    .tag-cloud {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 10px;
+    }
+
+    .tag {
+      font-family: var(--mono);
+      font-size: .7rem;
+      color: var(--text-dim);
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 3px;
+      padding: 3px 9px;
+    }
+
+    /* ── PROJECTS ───────────────────────────────────────────── */
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+      gap: 16px;
+    }
+
+    .proj-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 28px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      transition: border-color .2s, transform .2s;
+    }
+
+    .proj-card:hover {
+      border-color: var(--accent);
+      transform: translateY(-2px);
+    }
+
+    .proj-icon {
+      width: 40px;
+      height: 40px;
+      background: linear-gradient(135deg, var(--accent) 0%, var(--accent2) 100%);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+    }
+
+    .proj-title {
+      font-size: 1.05rem;
+      font-weight: 700;
+    }
+
+    .proj-desc {
+      font-size: .88rem;
+      color: var(--text-dim);
+      line-height: 1.65;
+      flex: 1;
+    }
+
+    /* ── EDUCATION ──────────────────────────────────────────── */
+    .edu-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--accent);
+      border-radius: 8px;
+      padding: 28px 32px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .edu-deg {
+      font-size: 1.05rem;
+      font-weight: 700;
+    }
+
+    .edu-uni {
+      font-family: var(--mono);
+      font-size: .82rem;
+      color: var(--text-dim);
+      margin-top: 5px;
+    }
+
+    .edu-period {
+      font-family: var(--mono);
+      font-size: .75rem;
+      color: var(--text-dim);
+      border: 1px solid var(--border);
+      padding: 5px 12px;
+      border-radius: 3px;
+      background: var(--bg);
+    }
+
+    /* ── SUMMARY ────────────────────────────────────────────── */
+    .summary-box {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 32px 36px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* .summary-box::before {
+      content: '"';
+      position: absolute;
+      top: -10px;
+      left: 20px;
+      font-size: 8rem;
+      font-weight: 800;
+      color: var(--accent);
+      opacity: .06;
+      line-height: 1;
+    } */
+
+    .summary-text {
+      font-size: .98rem;
+      color: var(--text-dim);
+      line-height: 1.8;
+      position: relative;
+    }
+
+    /* ── FOOTER ─────────────────────────────────────────────── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 32px 0;
+      position: relative;
+      z-index: 1;
+    }
+
+    .footer-inner {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 0 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .footer-copy {
+      font-family: var(--mono);
+      font-size: .72rem;
+      color: var(--muted);
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 20px;
+      list-style: none;
+    }
+
+    .footer-links a {
+      font-family: var(--mono);
+      font-size: .72rem;
+      color: var(--muted);
+      text-decoration: none;
+      transition: color .2s;
+    }
+
+    .footer-links a:hover {
+      color: var(--accent);
+    }
+
+    /* ── SCROLL REVEAL ──────────────────────────────────────── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity .55s ease, transform .55s ease;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: none;
+    }
+
+    /* ── RESPONSIVE ─────────────────────────────────────────── */
+    @media (max-width: 600px) {
+      h1 {
+        font-size: 2.4rem;
+      }
+
+      .hero-stats {
+        grid-template-columns: 1fr 1fr 1fr;
+      }
+
+      .stat-val {
+        font-size: 1.3rem;
+      }
+
+      .projects-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .exp-header {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- ── NAV ─────────────────────────────────────────────────── -->
+  <nav>
+    <div class="inner">
+      <span class="nav-logo">Teja Kumar</span>
+      <ul class="nav-links">
+        <li><a href="#experience">Experience</a></li>
+        <li><a href="#skills">Skills</a></li>
+        <li><a href="#projects">Projects</a></li>
+        <li><a href="#education">Education</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- ── HERO ────────────────────────────────────────────────── -->
+  <section id="hero">
+    <div class="container">
+      <div class="hero-eyebrow">Available for opportunities</div>
+      <h1>Applied Computer<br /><span class="hero-title-dim">Vision Engineer</span></h1>
+
+      <div class="hero-contact">
+        <a href="tel:+91 6383766950">+91 6383766950</a>
+        <span>⋄</span>
+        <a href="mailto:jayaramteja6@gmail.com">jayaramteja6@gmail.com</a>
+        <span>⋄</span>
+        <a href="https://www.linkedin.com/in/teja-kumar-g-s-373b6733a/" target="_blank">linkedin</a>
+      </div>
+
+      <p class="hero-sub">
+        I design and deploy production-grade computer vision systems for fixed industrial environments, converting raw
+        detections into reliable process decisions using spatial and temporal logic. My work spans data curation, model
+        training, post-processing logic, and real-time inference under strict operational constraints.
+      </p>
+
+
+      <div class="btn-row">
+        <a href="#experience" class="btn btn-primary">View Experience →</a>
+        <a href="#projects" class="btn btn-outline">Projects</a>
+      </div>
+
+      <div class="hero-stats">
+        <div class="stat">
+          <span class="stat-val">17K+</span>
+          <span class="stat-lbl">Images Trained</span>
+        </div>
+        <div class="stat">
+          <span class="stat-val">0.98</span>
+          <span class="stat-lbl">mAP50 Score</span>
+        </div>
+        <div class="stat">
+          <span class="stat-val">13+</span>
+          <span class="stat-lbl">it/s Inference</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── SUMMARY ──────────────────────────────────────────────── -->
+  <section id="summary">
+    <div class="container">
+      <div class="sec-header reveal">
+        <span class="sec-tag">About</span>
+        <div class="sec-line"></div>
+      </div>
+      <div class="summary-box reveal">
+        <p class="summary-text">
+          My work focuses on bridging the gap between object detection accuracy and real-world reliability. In
+          industrial computer vision, high mAP alone is insufficient,systems must reason about position, sequence, and
+          time.
+          <br><br>
+          I specialize in fixed-camera vision systems where spatial validation, temporal smoothing, and rule-based state
+          tracking are used to transform frame-level detections into dependable operational signals. I take ownership of
+          the full pipeline, from dataset curation and training to deployment, monitoring, and known failure analysis.
+        </p>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ── CONSTRAINTS ─────────────────────────────────────────── -->
+  <section id="constraints">
+    <div class="container">
+      <div class="sec-header reveal">
+        <span class="sec-tag">System Constraints</span>
+        <div class="sec-line"></div>
+      </div>
+      <div class="summary-box reveal">
+        <p class="summary-text">
+          • Fixed camera placement and constant field-of-view<br>
+          • Offline-only inference (no cloud access)<br>
+          • Latency-sensitive pipeline under continuous operation<br>
+          • No model retraining allowed post-deployment
+        </p>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ── EXPERIENCE ───────────────────────────────────────────── -->
+  <section id="experience">
+    <div class="container">
+      <div class="sec-header reveal">
+        <span class="sec-tag">Experience</span>
+        <div class="sec-line"></div>
+      </div>
+
+      <div class="exp-list">
+
+        <!-- JOB 1 -->
+        <div class="exp-card reveal" id="job1">
+          <div class="exp-header" onclick="toggleExp('job1')">
+            <div>
+              <div class="exp-title">AI Intern</div>
+              <div class="exp-company">Defect Scanner</div>
+            </div>
+            <div style="display:flex;gap:10px;align-items:center;">
+              <span class="exp-date">JUL 2025 – JAN 2026</span>
+              <span class="toggle-icon">▼</span>
+            </div>
+          </div>
+          <div class="exp-body open" id="job1-body">
+            <ul class="exp-bullets">
+              <li>
+                <strong>Problem:</strong> Frame-level object detections were insufficient to validate industrial
+                drill-tightening operations reliably.
+              </li>
+              <li>
+                <strong>Approach:</strong> Trained YOLO-based models on 17K+ images (90K+ instances), then layered
+                centroid-based spatial validation to confirm tool presence within predefined work zones.
+              </li>
+              <li>
+                <strong>Stability:</strong> Introduced temporal smoothing and state tracking to suppress transient false
+                positives caused by motion blur and operator hand overlap.
+              </li>
+              <li>
+                <strong>Outcome:</strong> Achieved mAP50 of 0.98 with stable real-time inference at 13+ it/s, deployed
+                via a Flask dashboard for continuous production monitoring.
+              </li>
+            </ul>
+
+          </div>
+        </div>
+
+        <!-- JOB 2 -->
+        <div class="exp-card reveal" id="job2">
+          <div class="exp-header" onclick="toggleExp('job2')">
+            <div>
+              <div class="exp-title">DL Engineer Intern</div>
+              <div class="exp-company">FDAI</div>
+            </div>
+            <div style="display:flex;gap:10px;align-items:center;">
+              <span class="exp-date">DEC 2024 – JUN 2025</span>
+              <span class="toggle-icon">▼</span>
+            </div>
+          </div>
+          <div class="exp-body open" id="job2-body">
+            <ul class="exp-bullets">
+              <li>Developed OCR pipelines using PaddleOCR and Tesseract to extract text, tables, figures, and links from
+                diverse document formats.</li>
+              <li>Deployed offline LLMs locally via Ollama — no internet — for secure, low-latency inference.</li>
+            </ul>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ── SKILLS ────────────────────────────────────────────────── -->
+  <section id="skills">
+    <div class="container">
+      <div class="sec-header reveal">
+        <span class="sec-tag">Skills</span>
+        <div class="sec-line"></div>
+      </div>
+
+      <div class="skills-grid">
+
+        <div class="skill-card reveal">
+          <div class="skill-cat">Core Language</div>
+          <div class="skill-name">Python & AI Pipelines</div>
+          <div class="skill-desc">Production-oriented workflows for real-time data handling.</div>
+          <div class="tag-cloud">
+            <span class="tag">Python</span>
+            <span class="tag">Flask</span>
+            <span class="tag">Streamlit</span>
+          </div>
+        </div>
+
+        <div class="skill-card reveal">
+          <div class="skill-cat">Computer Vision</div>
+          <div class="skill-name">Real-Time Object Detection</div>
+          <div class="skill-desc">YOLO-based detection, OpenCV processing, ROI extraction for industrial use cases.
+          </div>
+          <div class="tag-cloud">
+            <span class="tag">YOLO</span>
+            <span class="tag">OpenCV</span>
+            <span class="tag">ROI</span>
+          </div>
+        </div>
+
+        <div class="skill-card reveal">
+          <div class="skill-cat">Data & Training</div>
+          <div class="skill-name">Model Training & Curation</div>
+          <div class="skill-desc">Custom dataset curation (17K+ images), data augmentation, CVAT labeling,
+            centroid-based validation.</div>
+          <div class="tag-cloud">
+            <span class="tag">CVAT</span>
+            <span class="tag">Augmentation</span>
+            <span class="tag">mAP</span>
+          </div>
+        </div>
+
+        <div class="skill-card reveal">
+          <div class="skill-cat">Applied AI</div>
+          <div class="skill-name">Offline LLMs & OCR</div>
+          <div class="skill-desc">Offline LLM inference via Ollama, OCR extraction with PaddleOCR and Tesseract.</div>
+          <div class="tag-cloud">
+            <span class="tag">Ollama</span>
+            <span class="tag">PaddleOCR</span>
+            <span class="tag">Tesseract</span>
+          </div>
+        </div>
+
+        <div class="skill-card reveal">
+          <div class="skill-cat">Data Management</div>
+          <div class="skill-name">Structured Data & Reproducibility</div>
+          <div class="skill-desc">
+            Experienced in handling structured datasets and ensuring reproducible workflows for experiments, data
+            curation, and model training in industrial computer vision projects.
+          </div>
+          <div class="tag-cloud">
+            <span class="tag">Data Curation</span>
+            <span class="tag">Reproducibility</span>
+            <span class="tag">Structured Data</span>
+            <span class="tag">Data Handling</span>
+          </div>
+        </div>
+        <div class="skill-card reveal">
+          <div class="skill-cat">Collaboration</div>
+          <div class="skill-name">Version Control & Team Workflows</div>
+          <div class="skill-desc">
+            Proficient in Git and GitHub for team collaboration, including branching strategies, pull requests, and
+            resolving merge conflicts to maintain clean, reliable code.
+          </div>
+          <div class="tag-cloud">
+            <span class="tag">Git</span>
+            <span class="tag">GitHub</span>
+            <span class="tag">Branching</span>
+            <span class="tag">PRs</span>
+            <span class="tag">Merge Conflicts</span>
+          </div>
+        </div>
+
+
+
+
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ── PROJECTS ──────────────────────────────────────────────── -->
+  <section id="projects">
+    <div class="container">
+      <div class="sec-header reveal">
+        <span class="sec-tag">Projects</span>
+        <div class="sec-line"></div>
+      </div>
+
+      <div class="projects-grid">
+
+        <div class="proj-card reveal">
+          <div class="proj-icon">📄</div>
+          <div class="proj-title">Document Extraction Tool</div>
+          <div class="proj-desc">
+            Built a Python tool using PyMuPDF to extract structured metadata from PDFs and validate values
+            automatically. Developed a Streamlit app to generate structured Excel reports using OpenPyXL, reducing
+            manual verification effort.
+          </div>
+          <div class="tag-cloud">
+            <span class="tag">PyMuPDF</span>
+            <span class="tag">Streamlit</span>
+            <span class="tag">OpenPyXL</span>
+            <span class="tag">Python</span>
+          </div>
+        </div>
+
+        <div class="proj-card reveal">
+          <div class="proj-icon">🔬</div>
+          <div class="proj-title">Production-Line Defect Scanner</div>
+          <div class="proj-desc">
+            Designed a fixed-camera industrial vision system where object detection alone was insufficient for
+            decision-making. YOLO-based models were trained on 17K+ images (mAP50: 0.98), then augmented with ROI
+            filtering and centroid-based spatial logic to validate drill-tightening actions.
+            <br><br>
+            To handle real-world noise, temporal smoothing and state-based validation were applied, reducing false
+            triggers from partial occlusion and rapid operator motion. The system delivered consistent real-time
+            performance at 13+ it/s through a Flask-based monitoring dashboard.
+          </div>
+          <div class="skill-desc">
+            <strong>Design Considerations & Limits:</strong><br>
+            • Fixed camera geometry eliminated need for homography<br>
+            • Centroid logic chosen over IoU (Intersection over Union) IoU = (Area of Overlap) / (Area of Union) due to
+            tool shape variance<br>
+            • Known failure case: extreme hand occlusion during fast motion
+          </div>
+
+          <div class="tag-cloud">
+            <span class="tag">YOLO</span>
+            <span class="tag">Flask</span>
+            <span class="tag">OpenCV</span>
+            <span class="tag">Python</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ── EDUCATION ─────────────────────────────────────────────── -->
+  <section id="education">
+    <div class="container">
+      <div class="sec-header reveal">
+        <span class="sec-tag">Education</span>
+        <div class="sec-line"></div>
+      </div>
+
+      <div class="edu-card reveal">
+        <div>
+          <div class="edu-deg">MSc. Information Technology</div>
+          <div class="edu-uni">University of Madras, Chennai</div>
+        </div>
+        <span class="edu-period">Aug 2023 – May 2025</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── FOOTER ────────────────────────────────────────────────── -->
+  <footer>
+    <div class="footer-inner">
+      <!-- <span class="footer-copy">Built with HTML · CSS · JS</span> -->
+      <ul class="footer-links">
+        <li><a href="mailto:jayaramteja6@gmail.com">Email</a></li>
+        <li><a href="https://www.linkedin.com/in/teja-kumar-g-s-373b6733a/" target="_blank">LinkedIn</a></li>
+        <li><a href="#hero">↑ Top</a></li>
+      </ul>
+    </div>
+  </footer>
+
+  <!-- ── JS ───────────────────────────────────────────────────── -->
+  <script>
+    // Accordion toggle
+    function toggleExp(id) {
+      const card = document.getElementById(id);
+      const body = document.getElementById(id + '-body');
+      card.classList.toggle('open');
+      body.classList.toggle('open');
+    }
+    // Open first card by default
+    document.getElementById('job1').classList.add('open');
+    document.getElementById('job2').classList.add('open');
+
+    // Scroll reveal
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('visible');
+          observer.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.12 });
+
+    document.querySelectorAll('.reveal').forEach((el, i) => {
+      el.style.transitionDelay = (i % 4) * 0.07 + 's';
+      observer.observe(el);
+    });
+  </script>
+</body>
+
+</html>
