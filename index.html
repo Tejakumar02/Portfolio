@@ -26,7 +26,7 @@
   --text:        #f0f4f8;
   --text-2:      #a8b8cc;
   --text-3:      #576574;
-  --mono:        'Ar', monospace;
+  --mono:        'JetBrains Mono', monospace;
   --serif:       'Instrument Serif', serif;
   --sans:        'DM Sans', sans-serif;
   --max:         1040px;
@@ -352,7 +352,7 @@ section { padding: 96px 0; border-top: 1px solid var(--border); }
 }
 .t-dots { display: flex; gap: 7px; }
 .t-dot { width: 12px; height: 12px; border-radius: 50%; }
-.dot-r { background: #46a2ff; } .dot-y { background: #ffff; } .dot-p { background: #00f964; }
+.dot-r { background: #46a2ff; } .dot-y { background: #ffbd2e; } .dot-p { background: #00f964; }
 .t-title { font-size: .69rem; color: var(--text-3); letter-spacing: .1em; }
 .t-body { padding: 24px 28px; min-height: 340px; }
 .tl { margin-bottom: 4px; font-size: .8rem; line-height: 1.75; }
@@ -447,10 +447,6 @@ section { padding: 96px 0; border-top: 1px solid var(--border); }
   border-bottom: 1px solid var(--border);
   display: flex; align-items: center; justify-content: center;
   font-size: 2.4rem; position: relative; overflow: hidden;
-}
-.proj-img {
-  position: relative;
-  overflow: hidden;
 }
 
 .proj-img img {
@@ -756,9 +752,10 @@ footer {
     </div>
 
     <p class="hero-desc">
-      I build production-grade AI systems that go beyond model accuracy — converting raw detections
-      into reliable process decisions using spatial logic, temporal state tracking, and
-      full pipeline ownership from data curation to live deployment.
+      I build computer vision systems that don't just detect things — they decide things.
+      My focus is turning raw model output into signals a factory floor can actually trust,
+      using spatial logic and temporal tracking, and owning the pipeline end to end,
+      from raw data to live deployment.
     </p>
 
     <div class="hero-cta">
@@ -812,19 +809,20 @@ footer {
           <em>work in the real world.</em>
         </h2>
         <p>
-          In industrial computer vision, a high mAP score is the starting point — not the finish line.
-          Systems deployed on a factory floor must reason about <strong>position, sequence, and time</strong>.
-          A detection that's accurate 98% of the time still fails if the remaining 2% triggers a false
-          alarm every 10 minutes.
+          A high mAP score is where the real work starts, not where it ends. Once a model hits
+          a factory floor, it has to reason about <strong>position, sequence, and time</strong> —
+          not just "is the object there." A detection that's right 98% of the time can still be
+          useless in production if the other 2% sets off a false alarm every ten minutes.
         </p>
         <p>
-          My work focuses on that gap. I layer <strong>centroid-based spatial validation</strong>, temporal
-          smoothing, and rule-based state machines on top of detection models to produce signals that
-          operations teams can actually trust.
+          That's the gap I work in. I layer <strong>centroid-based spatial checks</strong>, temporal
+          smoothing, and rule-based state machines on top of detection models, so the output is
+          something an operations team can actually act on — not just a bounding box.
         </p>
         <p>
-          I take full pipeline ownership — from dataset curation and model training through deployment,
-          monitoring, and <strong>known-failure documentation</strong>.
+          I own the whole pipeline: labeling the data, training the model, shipping it, watching
+          how it behaves in production, and writing down exactly where it still breaks, so
+          <strong>nobody gets surprised later</strong>.
         </p>
       </div>
       <div class="constraints-box reveal">
@@ -878,7 +876,7 @@ footer {
         </div>
         <div class="exp-body open" id="j1-b">
           <ul class="exp-ul">
-            <li>Trained YOLO on 17K+ images (90K+ CVAT annotations) — achieved mAP50 of <strong>0.98</strong> with stable inference at <strong>13+ FPS</strong> in live production.</li>
+            <li>Trained YOLO on 17K+ images (90K+ CVAT annotations) — achieved mAP50 of <strong>0.92</strong> with stable inference at <strong>13+ FPS</strong> in live production.</li>
             <li>Layered centroid-based spatial validation to confirm tool presence within predefined work zones; introduced temporal smoothing and state-machine tracking to suppress false positives from motion blur and operator hand overlap.</li>
             <li>Integrated hardware alert system (tower lamp + buzzer) for real-time enforcement — reduced manual inspection effort by <strong>~40%</strong>.</li>
             <li>Built and deployed Docker-ready Flask REST API with live monitoring dashboard. Full pipeline: CVAT annotation → training → deployment → production monitoring.</li>
@@ -927,7 +925,7 @@ footer {
       <!-- FEATURED: DEFECT SCANNER -->
       <div class="proj-card featured reveal">
         <div class="proj-img">
-          <img src="AL_Inspection.png" alt="Production Line Defect Scanner">
+          <img src="AL_Inspection.png" alt="Production Line Defect Scanner" onerror="this.replaceWith(Object.assign(document.createElement('div'),{textContent:'🏭',style:'font-size:2.4rem;width:100%;height:100%;display:flex;align-items:center;justify-content:center;'}))">
           
           <span class="proj-badge">● Production</span>
         </div>
@@ -938,7 +936,10 @@ footer {
           </div>
           <div class="proj-title">Production-Line Defect Scanner</div>
           <p class="proj-desc">
-            Fixed-camera industrial vision system for drill-tightening validation. Frame-level detection was insufficient — built spatial + temporal logic on top: centroid ROI validation, state-machine tracking, and temporal smoothing to convert noisy detections into reliable compliance signals.
+            A fixed-camera vision system that checks drill-tightening compliance on the assembly line.
+            Frame-by-frame detection alone wasn't reliable enough, so I built a logic layer on top —
+            centroid ROI checks, a state machine, and temporal smoothing — that turns noisy detections
+            into a compliance signal the floor can actually trust.
           </p>
           <div class="dnotes">
             <div class="dnotes-label">Design Decisions</div>
@@ -951,7 +952,7 @@ footer {
           <a href="https://github.com/Tejakumar02/AL-Tower-Assembly-Inspector.git" target="_blank" class="proj-link">View Repository ↗</a>
         </div>
         <div class="proj-meta">
-          <div class="meta-item"><span class="meta-k">mAP50</span><span class="meta-v">0.98</span></div>
+          <div class="meta-item"><span class="meta-k">mAP50</span><span class="meta-v">0.92</span></div>
           <div class="meta-item"><span class="meta-k">Inference</span><span class="meta-v">13+ FPS</span></div>
           <div class="meta-item"><span class="meta-k">Compliance</span><span class="meta-v">~95%</span></div>
           <div class="meta-item"><span class="meta-k">Manual ↓</span><span class="meta-v">~40%</span></div>
@@ -960,10 +961,27 @@ footer {
         </div>
       </div>
 
+      <!-- GREENYAI -->
+      <div class="proj-card reveal">
+        <div class="proj-img" style="background:linear-gradient(135deg,#0d1117,#0a2e20);">
+          🍃
+          <span class="proj-badge">● Live</span>
+        </div>
+        <div class="proj-body">
+          <div class="proj-tags">
+            <span class="p-tag">Streamlit</span><span class="p-tag">Groq</span>
+            <span class="p-tag">Supabase</span><span class="p-tag">RAG</span>
+          </div>
+          <div class="proj-title">GreenyAI — RAG Chat Assistant</div>
+          <p class="proj-desc">A chat assistant that actually reads what you hand it — drop in a PDF and it answers questions grounded in that document, powered by Groq-hosted Llama models with instant model switching. Conversations persist across sessions via Supabase, with one-click chat export built in.</p>
+          <a href="https://greenyai.streamlit.app/" target="_blank" class="proj-link">Try it Live ↗</a>
+        </div>
+      </div>
+
       <!-- RAG -->
       <div class="proj-card reveal">
         <div class="proj-img" style="background:linear-gradient(135deg,#0d1117,#0a1628);">
-          🧠
+          🤖
           <span class="proj-badge blue">Air-Gapped</span>
         </div>
         <div class="proj-body">
@@ -972,7 +990,7 @@ footer {
             <span class="p-tag">Ollama</span><span class="p-tag">FastAPI</span>
           </div>
           <div class="proj-title">RAG Document Intelligence</div>
-          <p class="proj-desc">Offline Q&A and summarization pipeline. Mistral + LLaMA via Ollama locally. PaddleOCR + Tesseract + HuggingFace multimodal extraction. Zero cloud. Air-gapped enterprise deployment.</p>
+          <p class="proj-desc">An offline Q&A and summarization pipeline — Mistral and LLaMA running locally through Ollama, with PaddleOCR, Tesseract, and HuggingFace handling multimodal extraction. No cloud calls, built for air-gapped enterprise environments.</p>
           <a href="https://github.com/Tejakumar02/RAG_System" target="_blank" class="proj-link">View Repository ↗</a>
         </div>
       </div>
@@ -985,7 +1003,7 @@ footer {
             <span class="p-tag">PyMuPDF</span><span class="p-tag">Streamlit</span><span class="p-tag">OpenPyXL</span>
           </div>
           <div class="proj-title">QC Workflow Automation</div>
-          <p class="proj-desc">Batch PDF processing replacing a full manual QC workflow. Extracts 35+ structured fields from 50+ PDFs per run, outputs formatted Excel reports. ~90% time saved.</p>
+          <p class="proj-desc">Replaced a fully manual QC process with batch PDF processing — pulls 35+ structured fields across 50+ PDFs per run and outputs a formatted Excel report. Cut review time by roughly 90%.</p>
           <a href="https://github.com/Tejakumar02/QC-Workflow-AutomationSystem.git" target="_blank" class="proj-link">View Repository ↗</a>
         </div>
       </div>
@@ -998,23 +1016,10 @@ footer {
             <span class="p-tag">Python</span><span class="p-tag">Scraping</span><span class="p-tag">NLP</span>
           </div>
           <div class="proj-title">Automated Job Search System</div>
-          <p class="proj-desc">Multi-platform job scraping with keyword ranking, cross-source deduplication, and structured tracking dashboard. Search-to-ranked-shortlist, fully automated pipeline.</p>
+          <p class="proj-desc">Scrapes job postings across multiple platforms, ranks them by keyword relevance, dedupes across sources, and tracks everything on one dashboard — a fully automated path from search to shortlist.</p>
           <a href="https://github.com/Tejakumar02/Automated-Job-Search-System" target="_blank" class="proj-link">View Repository ↗</a>
         </div>
       </div>
-      <!-- Local LLM Chatbot with GraphRAG and Web Search -->
-      <div class="proj-card reveal">
-        <div class="proj-img">🤖</div>
-        <div class="proj-body">
-          <div class="proj-tags">
-            <span class="p-tag">Web-Search</span><span class="p-tag">Chatbot</span><span class="p-tag">Graph-RAG</span>
-          </div>
-          <div class="proj-title">Local LLM Chatbot with GraphRAG and Web Search</div>
-          <p class="proj-desc">Offline chatbot leveraging GraphRAG and web search capabilities. Utilizes locally hosted LLMs via Ollama for secure, low-latency inference.</p>
-          <a href="https://github.com/Tejakumar02/LLM_Chatbot-Graph_rag-Websearch-.git" target="_blank" class="proj-link">View Repository ↗</a>
-        </div>
-      </div>
-
     </div>
   </div>
 </section>
@@ -1043,9 +1048,9 @@ footer {
       <div class="skill-card reveal">
         <div class="skill-cat">GenAI / LLMs</div>
         <div class="skill-name">Offline RAG Pipelines</div>
-        <div class="skill-desc">LangChain + ChromaDB vector retrieval. Local LLM inference via Ollama — Mistral, LLaMA. Air-gapped enterprise deployment.</div>
+        <div class="skill-desc">LangChain + ChromaDB vector retrieval. Local LLM inference via Ollama — Mistral, LLaMA. Also shipped a Groq-hosted RAG chat app with Supabase-backed history — air-gapped or cloud, depending on what the job needs.</div>
         <div class="tag-cloud">
-          <span class="tag">LangChain</span><span class="tag">Ollama</span><span class="tag">ChromaDB</span><span class="tag">RAG</span>
+          <span class="tag">LangChain</span><span class="tag">Ollama</span><span class="tag">ChromaDB</span><span class="tag">RAG</span><span class="tag">Groq</span><span class="tag">Supabase</span>
         </div>
       </div>
       <div class="skill-card reveal">
@@ -1192,7 +1197,7 @@ footer {
       </div>
       <div class="avail-card reveal">
         <div class="avail-status"><span class="avail-dot"></span>Open to Opportunities</div>
-        <p>Looking for roles in applied computer vision, industrial AI, and real-time ML systems. I bring end-to-end ownership — from dataset curation through production deployment.<br><br>Based in Chennai. Open to on-site, hybrid, or remote.</p>
+        <p>Looking for roles in applied computer vision, industrial AI, or real-time ML systems — somewhere I can own a pipeline end to end, not just hand off a model and move on.<br><br>Based in Chennai. Open to on-site, hybrid, or remote.</p>
         <a href="https://drive.google.com/file/d/1iUBKaFwfteRhIay1O5LBBQhnvPVxpYuy/view?usp=sharing"
            target="_blank" class="btn btn-primary">View Resume ↗</a>
       </div>
@@ -1203,7 +1208,7 @@ footer {
 <!-- ── FOOTER ────────────────────────────── -->
 <footer>
   <div class="foot-inner">
-    <span class="foot-copy">© 2025 Teja Kumar G S · Chennai, India</span>
+    <span class="foot-copy">© <span id="footYear">2026</span> Teja Kumar G S · Chennai, India</span>
     <ul class="foot-links">
       <li><a href="mailto:jayaramteja6@gmail.com">Email</a></li>
       <li><a href="https://www.linkedin.com/in/teja-kumar-g-s-373b6733a/" target="_blank">LinkedIn</a></li>
@@ -1220,7 +1225,7 @@ const SEQ = [
   { t:'orange', v:'> Compiling experience protocols...' },
   { t:'yellow', v:'System Ready:' },
   { t:'white',  v:"I'm an AI Engineer" },
-  { t:'white',  v:'mAP50: 0.98  ·  Inference: 13+ FPS' },
+  { t:'white',  v:'mAP50: 0.92  ·  Inference: 13+ FPS' },
   { t:'white',  v:'Chennai, India' },
   { t:'gap' },
   { t:'cmd',    v:'root@cyber : ~ $ ls skills' },
@@ -1281,6 +1286,9 @@ const termObs = new IntersectionObserver(([e]) => {
   if (e.isIntersecting) { setTimeout(renderNext, 300); termObs.disconnect(); }
 }, { threshold: 0.3 });
 termObs.observe(document.getElementById('terminal-section'));
+
+/* ── FOOTER YEAR ── */
+document.getElementById('footYear').textContent = new Date().getFullYear();
 
 /* ── ACCORDION ── */
 function tog(id) {
