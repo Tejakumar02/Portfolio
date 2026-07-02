@@ -6,7 +6,10 @@
 <title>Teja Kumar G S | AI Engineer</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet"/>
+<!-- Favicon: upload your logo image to the same folder as this file, named "favicon.png",
+     or change the href below to point wherever you host it. -->
+<link rel="icon" type="image/png" href="favicon.png"/>
 <style>
 /* ─────────────────────────────────────────
    TOKENS
@@ -29,6 +32,7 @@
   --mono:        'JetBrains Mono', monospace;
   --serif:       'Instrument Serif', serif;
   --sans:        'DM Sans', sans-serif;
+  --display:     'Bebas Neue', 'Oswald', 'Arial Narrow', sans-serif;
   --max:         1040px;
   --nav-h:       56px;
 }
@@ -88,15 +92,34 @@ nav {
   display: flex; align-items: center; justify-content: space-between;
 }
 .nav-logo {
-  font-family: var(--mono); font-size: .8rem; font-weight: 700;
-  color: var(--text); text-decoration: none; letter-spacing: .04em;
-  display: flex; align-items: center; gap: 6px;
+  display: flex; align-items: center; text-decoration: none;
 }
-.nav-logo-dot {
-  width: 6px; height: 6px; border-radius: 50%;
-  background: var(--green);
-  box-shadow: 0 0 8px var(--green);
-  animation: blink 2.4s ease-in-out infinite;
+.nav-logo-badge {
+  position: relative;
+  width: 34px; height: 34px; border-radius: 50%;
+  background: radial-gradient(circle at 32% 28%, var(--surface2) 0%, var(--bg) 78%);
+  border: 1px solid var(--border2);
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--mono); font-size: .68rem; font-weight: 700;
+  letter-spacing: .01em; color: var(--green);
+  animation: logoPulse 2.4s ease-in-out infinite;
+  transition: transform .2s;
+}
+@keyframes logoPulse {
+  0%, 100% {
+    box-shadow: inset 0 0 10px rgba(0,249,100,.10), 0 0 0 1px rgba(0,249,100,.05);
+    border-color: var(--border2);
+  }
+  50% {
+    box-shadow: inset 0 0 16px rgba(0,249,100,.30), 0 0 14px rgba(0,249,100,.30);
+    border-color: rgba(0,249,100,.45);
+  }
+}
+.nav-logo:hover .nav-logo-badge {
+  animation-play-state: paused;
+  border-color: var(--green);
+  box-shadow: inset 0 0 14px rgba(0,249,100,.22), 0 0 16px rgba(0,249,100,.28);
+  transform: translateY(-1px);
 }
 @keyframes blink { 0%,100%{opacity:1} 50%{opacity:.3} }
 
@@ -162,19 +185,19 @@ section { padding: 96px 0; border-top: 1px solid var(--border); }
   opacity: 0; animation: fadeUp .6s .1s forwards ease-out;
 }
 
-/* Main name — massive, sharp */
+/* Main name — massive, sharp, condensed display face */
 .hero-name {
-  font-family: var(--sans); font-weight: 300;
-  font-size: clamp(3.4rem, 8.5vw, 7.6rem);
-  line-height: .96; letter-spacing: -.04em;
+  font-family: var(--display); font-weight: 400;
+  font-size: clamp(3.8rem, 9.5vw, 8.4rem);
+  line-height: .9; letter-spacing: .01em;
   color: var(--text); margin-bottom: 0;
   opacity: 0; animation: fadeUp .7s .2s forwards ease-out;
 }
 .hero-name strong {
-  font-weight: 500;
+  font-weight: 400;
   /* subtle green tint on last name initial */
 }
-/* italic serif accent */
+/* accent — original serif italic style, untouched */
 .hero-name em {
   font-family: var(--serif); font-style: italic;
   font-weight: 400; letter-spacing: -.02em;
@@ -444,13 +467,22 @@ section { padding: 96px 0; border-top: 1px solid var(--border); }
   border-bottom: 1px solid var(--border);
   display: flex; align-items: center; justify-content: center;
   font-size: 2.4rem; position: relative; overflow: hidden;
+  text-decoration: none; color: inherit; cursor: pointer;
 }
 
+/* Base image rule — object-fit:cover crops to fill the box uniformly
+   no matter what size/aspect ratio the source image is. Combined with
+   overflow:hidden on .proj-img above, this is what makes any uploaded
+   image "just fit" without stretching or leaving blank letterbox bars. */
 .proj-img img {
   width: 100%;
   height: 100%;
-  object-fit: contain;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+  transition: transform .35s ease;
 }
+.proj-img:hover img { transform: scale(1.04); }
 
 .proj-img::before {
   content: "";
@@ -458,16 +490,48 @@ section { padding: 96px 0; border-top: 1px solid var(--border); }
   inset: 0;
   background: rgba(0,0,0,0.35);
   z-index: 1;
+  transition: background .2s ease;
 }
+.proj-img:hover::before { background: rgba(0,0,0,.22); }
 
 .proj-badge {
   z-index: 2;
 }
-.proj-card.featured .proj-img { height: auto; border-bottom: none; border-right: 1px solid var(--border); }
+
+/* ── Featured card image (Production-Line Defect Scanner) ──
+   Kept in its own dedicated block so tweaks to it never
+   affect the four standard cards below. */
+.proj-card.featured .proj-img {
+  height: auto;
+  border-bottom: none;
+  border-right: 1px solid var(--border);
+}
+.proj-card.featured .proj-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+/* ── Standard card image (the other four project cards) ──
+   Separate, independent block — edit freely without touching
+   the featured card's rules above. */
+.proj-img.std-img {
+  height: 130px;
+  overflow: hidden;
+}
+.proj-img.std-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
 /* scan effect */
 .proj-img::after {
   content: ''; position: absolute; inset: 0;
   background: repeating-linear-gradient(0deg, transparent, transparent 3px, rgba(0,249,100,.015) 3px, rgba(0,249,100,.015) 4px);
+  pointer-events: none;
 }
 .proj-badge {
   position: absolute; top: 10px; right: 10px; z-index: 1;
@@ -711,9 +775,8 @@ footer {
 <!-- ── NAV ─────────────────────────────── -->
 <nav>
   <div class="nav-inner">
-    <a href="#hero" class="nav-logo">
-      <span class="nav-logo-dot"></span>
-      TEJA KUMAR
+    <a href="#hero" class="nav-logo" aria-label="Teja Kumar G S — home" onclick="window.location.reload(); return false;">
+      <span class="nav-logo-badge">TK</span>
     </a>
     <ul class="nav-links">
       <li><a href="#about">About</a></li>
@@ -921,11 +984,10 @@ footer {
 
       <!-- FEATURED: DEFECT SCANNER -->
       <div class="proj-card featured reveal">
-        <div class="proj-img">
+        <a href="https://github.com/Tejakumar02/AL-Tower-Assembly-Inspector.git" target="_blank" rel="noopener" class="proj-img" aria-label="Open Production-Line Defect Scanner repository">
           <img src="AL_Inspection.png" alt="Production Line Defect Scanner" onerror="this.replaceWith(Object.assign(document.createElement('div'),{textContent:'🏭',style:'font-size:2.4rem;width:100%;height:100%;display:flex;align-items:center;justify-content:center;'}))">
-          
           <span class="proj-badge">● Production</span>
-        </div>
+        </a>
         <div class="proj-body">
           <div class="proj-tags">
             <span class="p-tag">YOLOv8</span><span class="p-tag">OpenCV</span>
@@ -960,10 +1022,10 @@ footer {
 
       <!-- GREENYAI -->
       <div class="proj-card reveal">
-        <div class="proj-img">
-          <img src="GreenyAI.png"
+        <a href="https://greenyai.streamlit.app/" target="_blank" rel="noopener" class="proj-img std-img" aria-label="Open GreenyAI live app">
+          <img src="GreenyAI.png" alt="GreenyAI RAG Chat Assistant" onerror="this.replaceWith(Object.assign(document.createElement('div'),{textContent:'💬',style:'font-size:2.4rem;width:100%;height:100%;display:flex;align-items:center;justify-content:center;'}))">
           <span class="proj-badge">● Live</span>
-        </div>
+        </a>
         <div class="proj-body">
           <div class="proj-tags">
             <span class="p-tag">Streamlit</span><span class="p-tag">Groq</span>
@@ -977,10 +1039,10 @@ footer {
 
       <!-- RAG -->
       <div class="proj-card reveal">
-        <div class="proj-img" style="background:linear-gradient(135deg,#0d1117,#0a1628);">
+        <a href="https://github.com/Tejakumar02/RAG_System" target="_blank" rel="noopener" class="proj-img std-img" style="background:linear-gradient(135deg,#0d1117,#0a1628);" aria-label="Open Offline RAG Document Intelligence repository">
           🤖
           <span class="proj-badge blue">Air-Gapped</span>
-        </div>
+        </a>
         <div class="proj-body">
           <div class="proj-tags">
             <span class="p-tag">LangChain</span><span class="p-tag">ChromaDB</span>
@@ -994,7 +1056,7 @@ footer {
 
       <!-- QC -->
       <div class="proj-card reveal">
-        <div class="proj-img">📄</div>
+        <a href="https://github.com/Tejakumar02/QC-Workflow-AutomationSystem.git" target="_blank" rel="noopener" class="proj-img std-img" aria-label="Open QC Workflow Automation repository">📄</a>
         <div class="proj-body">
           <div class="proj-tags">
             <span class="p-tag">PyMuPDF</span><span class="p-tag">Streamlit</span><span class="p-tag">OpenPyXL</span>
@@ -1007,7 +1069,7 @@ footer {
 
       <!-- JOB SEARCH -->
       <div class="proj-card reveal">
-        <div class="proj-img">🔍</div>
+        <a href="https://github.com/Tejakumar02/Automated-Job-Search-System" target="_blank" rel="noopener" class="proj-img std-img" aria-label="Open Automated Job Search System repository">🔍</a>
         <div class="proj-body">
           <div class="proj-tags">
             <span class="p-tag">Python</span><span class="p-tag">Scraping</span><span class="p-tag">NLP</span>
