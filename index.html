@@ -470,33 +470,29 @@ section { padding: 96px 0; border-top: 1px solid var(--border); }
   text-decoration: none; color: inherit; cursor: pointer;
 }
 
-/* Base image rule — object-fit:cover crops to fill the box uniformly
-   no matter what size/aspect ratio the source image is. Combined with
-   overflow:hidden on .proj-img above, this is what makes any uploaded
-   image "just fit" without stretching or leaving blank letterbox bars. */
-.proj-img img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center;
+/* ── "Show the full image" pattern ──────────────────────────
+   Use TWO <img> tags per photo (same src on both):
+     <img class="proj-img-bg" ...>   ← blurred, cropped, fills every corner
+     <img class="proj-img-fg" ...>   ← the real image, fully visible, never cropped
+   This is what fixes the "not fitting" problem for any image
+   size/aspect ratio: the blurred copy behind it means there's
+   never blank letterbox space, and object-fit:contain on the
+   foreground copy guarantees the actual photo is shown in full. */
+.proj-img-bg {
+  position: absolute; inset: 0; z-index: 0;
+  width: 100%; height: 100%;
+  object-fit: cover; object-position: center;
+  filter: blur(20px) brightness(.5) saturate(1.15);
+  transform: scale(1.18);
+}
+.proj-img-fg {
+  position: relative; z-index: 1;
+  width: 100%; height: 100%;
+  object-fit: contain; object-position: center;
   display: block;
   transition: transform .35s ease;
 }
-.proj-img:hover img { transform: scale(1.04); }
-
-.proj-img::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: rgba(0,0,0,0.35);
-  z-index: 1;
-  transition: background .2s ease;
-}
-.proj-img:hover::before { background: rgba(0,0,0,.22); }
-
-.proj-badge {
-  z-index: 2;
-}
+.proj-img:hover .proj-img-fg { transform: scale(1.04); }
 
 /* ── Featured card image (Production-Line Defect Scanner) ──
    Kept in its own dedicated block so tweaks to it never
@@ -506,12 +502,6 @@ section { padding: 96px 0; border-top: 1px solid var(--border); }
   border-bottom: none;
   border-right: 1px solid var(--border);
 }
-.proj-card.featured .proj-img img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center;
-}
 
 /* ── Standard card image (the other four project cards) ──
    Separate, independent block — edit freely without touching
@@ -520,21 +510,14 @@ section { padding: 96px 0; border-top: 1px solid var(--border); }
   height: 130px;
   overflow: hidden;
 }
-.proj-img.std-img img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center;
-}
 
 /* scan effect */
 .proj-img::after {
-  content: ''; position: absolute; inset: 0;
+  content: ''; position: absolute; inset: 0; z-index: 2; pointer-events: none;
   background: repeating-linear-gradient(0deg, transparent, transparent 3px, rgba(0,249,100,.015) 3px, rgba(0,249,100,.015) 4px);
-  pointer-events: none;
 }
 .proj-badge {
-  position: absolute; top: 10px; right: 10px; z-index: 1;
+  position: absolute; top: 10px; right: 10px; z-index: 3;
   font-family: var(--mono); font-size: .6rem; font-weight: 700;
   padding: 3px 8px; border-radius: 3px;
   background: var(--green-10); border: 1px solid rgba(0,249,100,.25); color: var(--green);
@@ -985,7 +968,8 @@ footer {
       <!-- FEATURED: DEFECT SCANNER -->
       <div class="proj-card featured reveal">
         <a href="https://github.com/Tejakumar02/AL-Tower-Assembly-Inspector.git" target="_blank" rel="noopener" class="proj-img" aria-label="Open Production-Line Defect Scanner repository">
-          <img src="AL_Inspection.png" alt="Production Line Defect Scanner" onerror="this.replaceWith(Object.assign(document.createElement('div'),{textContent:'🏭',style:'font-size:2.4rem;width:100%;height:100%;display:flex;align-items:center;justify-content:center;'}))">
+          <img class="proj-img-bg" src="AL_Inspection.png" alt="" aria-hidden="true" onerror="this.style.display='none'">
+          <img class="proj-img-fg" src="AL_Inspection.png" alt="Production Line Defect Scanner" onerror="this.replaceWith(Object.assign(document.createElement('div'),{textContent:'🏭',style:'position:relative;z-index:1;font-size:2.4rem;width:100%;height:100%;display:flex;align-items:center;justify-content:center;'}))">
           <span class="proj-badge">● Production</span>
         </a>
         <div class="proj-body">
@@ -1023,7 +1007,8 @@ footer {
       <!-- GREENYAI -->
       <div class="proj-card reveal">
         <a href="https://greenyai.streamlit.app/" target="_blank" rel="noopener" class="proj-img std-img" aria-label="Open GreenyAI live app">
-          <img src="GreenyAI.png" alt="GreenyAI RAG Chat Assistant" onerror="this.replaceWith(Object.assign(document.createElement('div'),{textContent:'💬',style:'font-size:2.4rem;width:100%;height:100%;display:flex;align-items:center;justify-content:center;'}))">
+          <img class="proj-img-bg" src="GreenyAI.png" alt="" aria-hidden="true" onerror="this.style.display='none'">
+          <img class="proj-img-fg" src="GreenyAI.png" alt="GreenyAI RAG Chat Assistant" onerror="this.replaceWith(Object.assign(document.createElement('div'),{textContent:'💬',style:'position:relative;z-index:1;font-size:2.4rem;width:100%;height:100%;display:flex;align-items:center;justify-content:center;'}))">
           <span class="proj-badge">● Live</span>
         </a>
         <div class="proj-body">
