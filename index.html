@@ -165,6 +165,7 @@ section { padding: 96px 0; border-top: 1px solid var(--border); }
 ───────────────────────────────────────── */
 #hero {
   min-height: 100vh;
+  min-height: 100dvh; /* mobile-safe viewport height, avoids browser-chrome jump */
   display: flex; align-items: center;
   padding-top: var(--nav-h);
   border-top: none;
@@ -731,25 +732,129 @@ footer {
    RESPONSIVE
 ───────────────────────────────────────── */
 @media (max-width: 900px) {
+  section           { padding: 72px 0; }
   .about-grid       { grid-template-columns: 1fr; gap: 40px; }
   .proj-grid        { grid-template-columns: 1fr; }
   .proj-card.featured { grid-template-columns: 1fr; }
-  .proj-card.featured .proj-img { height: 130px; border-right: none; border-bottom: 1px solid var(--border); }
+  .proj-card.featured .proj-img { height: 170px; border-right: none; border-bottom: 1px solid var(--border); }
+  .proj-card.featured .proj-meta { grid-template-columns: 1fr 1fr; display: grid; gap: 8px; }
   .skills-grid      { grid-template-columns: 1fr 1fr; }
   .process-grid     { grid-template-columns: 1fr; gap: 40px; }
   .contact-grid     { grid-template-columns: 1fr; }
   .stats-inner      { grid-template-columns: 1fr 1fr; }
   .stat-cell:nth-child(2) { border-right: none; }
+  .stat-cell:nth-child(3) { padding-left: 0; }
 }
+
+/* ── Tablet / large phone ── */
+@media (max-width: 720px) {
+  .hero-strip { gap: 10px 16px; margin-top: 44px; padding-top: 20px; }
+  .stat-cell  { padding: 22px 0; }
+  .stat-cell:nth-child(3) { padding-left: 22px; }
+  .stat-val   { font-size: 1.6rem; }
+}
+
+/* ── Mobile ── */
 @media (max-width: 600px) {
   .wrap            { padding: 0 18px; }
-  .nav-inner       { padding: 0 18px; }
+  .nav-inner       { padding: 0 14px; gap: 8px; }
   .hero-inner      { padding: 0 18px; }
   .stats-inner     { padding: 0 18px; }
-  .hero-name       { font-size: 3rem; }
-  .skills-grid     { grid-template-columns: 1fr; }
-  .stats-inner     { grid-template-columns: 1fr 1fr; }
   .foot-inner      { padding: 18px; }
+
+  section              { padding: 56px 0; }
+  .section-label       { margin-bottom: 30px; font-size: .64rem; }
+
+  /* Nav: keep every link, let the row scroll horizontally instead of
+     wrapping or overflowing the viewport — no links removed, no menu added */
+  nav                  { height: 52px; }
+  .nav-logo-badge      { width: 30px; height: 30px; font-size: .62rem; }
+  .nav-links           {
+    gap: 0; overflow-x: auto; overflow-y: hidden; flex: 1;
+    scrollbar-width: none; -ms-overflow-style: none;
+    -webkit-overflow-scrolling: touch;
+    mask-image: linear-gradient(to right, transparent, black 12px, black calc(100% - 12px), transparent);
+  }
+  .nav-links::-webkit-scrollbar { display: none; }
+  .nav-links li        { flex-shrink: 0; }
+  .nav-links a         { font-size: .62rem; padding: 6px 9px; white-space: nowrap; }
+  .nav-resume          { font-size: .62rem; padding: 6px 10px; margin-left: 4px; flex-shrink: 0; white-space: nowrap; }
+
+  /* Hero */
+  .hero-eyebrow    { font-size: .62rem; letter-spacing: .14em; line-height: 1.6; gap: 6px; }
+  .hero-name       { font-size: 3rem; }
+  .hero-role       { font-size: .72rem; gap: 6px; margin-top: 20px; }
+  .hero-desc       { font-size: .92rem; margin-top: 18px; line-height: 1.7; }
+  .hero-cta        { gap: 10px; margin-top: 28px; }
+  .btn             { padding: 11px 18px; font-size: .68rem; }
+  .hero-strip      { gap: 8px 14px; margin-top: 40px; padding-top: 20px; }
+  .hero-strip a, .hero-strip span { font-size: .66rem; }
+
+  /* Stats */
+  .stats-inner     { grid-template-columns: 1fr 1fr; }
+  .stat-cell       { padding: 18px 0; padding-left: 16px; }
+  .stat-cell:first-child { padding-left: 0; }
+  .stat-cell:nth-child(3) { padding-left: 0; }
+  .stat-val        { font-size: 1.5rem; margin-bottom: 4px; }
+  .stat-key        { font-size: .58rem; }
+
+  /* About */
+  .about-body p        { font-size: .92rem; }
+  .constraint-row      { font-size: .7rem; padding: 11px 16px; }
+  .constraints-head    { padding: 12px 16px; }
+
+  /* Terminal */
+  .t-body          { padding: 16px; min-height: 260px; }
+  .tl              { font-size: .74rem; }
+
+  /* Experience */
+  .exp-head        { padding: 16px 18px; flex-wrap: wrap; gap: 8px 10px; }
+  .exp-title       { font-size: .92rem; }
+  .exp-body.open   { max-height: 900px; padding: 0 18px 18px; } /* prevent long wrapped text clipping on narrow screens */
+  .exp-body        { padding: 0 18px; }
+  .exp-ul li       { font-size: .84rem; }
+  .exp-date        { font-size: .6rem; padding: 3px 8px; }
+  .edu-row         { padding: 16px 18px; }
+  .edu-deg         { font-size: .92rem; }
+
+  /* Projects */
+  .proj-card.featured .proj-img { height: 150px; }
+  .proj-card.featured .proj-meta { grid-template-columns: 1fr; }
+  .proj-img.std-img { height: 110px; }
+  .proj-body       { padding: 18px; }
+  .proj-title      { font-size: .92rem; }
+  .proj-desc       { font-size: .82rem; }
+  .proj-meta       { padding: 18px; }
+  .dnotes          { padding: 11px 13px; }
+
+  /* Skills */
+  .skills-grid     { grid-template-columns: 1fr; }
+  .skill-card      { padding: 18px; }
+
+  /* Process */
+  .process-grid    { gap: 28px; }
+  .step-content    { padding: 12px 14px; }
+  .step-title      { font-size: .85rem; }
+  .step-desc       { font-size: .78rem; }
+  .bubble          { max-width: 78%; font-size: .78rem; }
+  .chat-msgs       { padding: 14px; }
+
+  /* Contact */
+  .c-row           { padding: 13px 15px; gap: 12px; }
+  .c-icon          { width: 30px; height: 30px; font-size: .8rem; }
+  .avail-card      { padding: 20px 20px; }
+
+  /* Footer */
+  .foot-inner      { flex-direction: column; align-items: flex-start; gap: 10px; }
+}
+
+/* ── Small phones ── */
+@media (max-width: 380px) {
+  .hero-name       { font-size: 2.5rem; }
+  .hero-eyebrow    { letter-spacing: .1em; }
+  section          { padding: 48px 0; }
+  .nav-resume      { padding: 6px 8px; font-size: .58rem; }
+  .stats-inner     { grid-template-columns: 1fr 1fr; }
 }
 </style>
 </head>
@@ -1353,4 +1458,4 @@ document.querySelectorAll('.reveal').forEach((el, i) => {
 });
 </script>
 </body>
-</html> 
+</html>
